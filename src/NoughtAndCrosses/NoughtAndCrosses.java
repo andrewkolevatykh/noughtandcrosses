@@ -10,7 +10,7 @@ public class NoughtAndCrosses {
     private static final char EMPTY_DOT = '*';
     private static final int MAP_SIZE_X = 3;
     private static final int MAP_SIZE_Y = 3;
-    private static final int WIN_LENGTH = 3;
+    private static final int WIN_LENGTH = 2;
     private static final char [][] map = new char[MAP_SIZE_X][MAP_SIZE_Y];
     private static final Scanner sc = new Scanner(System.in);
     private static final Random rnd = new Random();
@@ -71,7 +71,7 @@ public class NoughtAndCrosses {
             x = sc.nextInt() - 1;
             y = sc.nextInt() - 1;
         } while (!isValidCell(x, y) || !isEmptyCell(x, y));
-        map [y][x] = HUMAN_DOT;
+        map [x][y] = HUMAN_DOT;
         currentX = x;
         currentY = y;
     }
@@ -82,7 +82,7 @@ public class NoughtAndCrosses {
             x = rnd.nextInt(MAP_SIZE_X);
             y = rnd.nextInt(MAP_SIZE_Y);
         } while (!isEmptyCell(x, y));
-        map[y][x] = AI_DOT;
+        map[x][y] = AI_DOT;
         currentX = x;
         currentY = y;
     }
@@ -106,17 +106,21 @@ public class NoughtAndCrosses {
     }
 
     private static boolean checkLine (int x, int y) {
+        int currentLine = 0;
+        for (int vx = -1; vx <= 1; vx++) { if (x + vx < map.length && x + vx >= 0) {
+            for (int vy = -1; vy <= 1; vy++) { if (y + vy < map.length && y + vy >= 0) {
 
-        for (int vx = -1; vx <= 1; vx++) { if (x + vx <= map.length && x + vx >= 0) {
-            for (int vy = -1; vy <= 1; vy++) { if (y + vy <= map.length && y + vy >= 0) {
-                int nextPointX = vx;
-                int nextPointY = vy;
-                int currentLine = 1;
-                for (int winLine = 1; winLine < WIN_LENGTH; winLine++) {
-                    if (map[x][y] == map[x + nextPointX][y + nextPointY]) {
-                        currentLine++;
-                        nextPointX++;
-                        nextPointY++;
+                if (vx != 0 || vy !=0) {
+                    int nextPointX = vx;
+                    int nextPointY = vy;
+                    currentLine = 0;
+                    for (int winLine = 0; winLine < WIN_LENGTH; winLine++) {
+
+                        if (map[x][y] == map[x + nextPointX][y + nextPointY] && x + nextPointX >= 0 && y + nextPointY >= 0 && x + nextPointX < map.length && y + nextPointY < map.length) {
+                            currentLine++;
+                            nextPointX = nextPointX + vx;
+                            nextPointY = nextPointY + vy;
+                        }
                     }
                 }
                 if (currentLine == WIN_LENGTH) return true;
