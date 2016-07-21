@@ -100,16 +100,20 @@ public class NoughtAndCrosses {
     }
 
     private static boolean checkLine (int x, int y, char c) {
-        int len = 1;
+
         for (int vx = -1; vx <= 1; vx++) { if (x + vx <= map.length && x + vx >= 0) {
             for (int vy = -1; vy <= 1; vy++) { if (y + vy <= map.length && y + vy >= 0) {
-                if (map[x][y] == map [x+vx][y+vy]) {
-                    for (len = 2; len < 3; len++) {
-
+                int nextPointX = vx;
+                int nextPointY = vy;
+                int currentLine = 1;
+                for (int winLine = 1; winLine < WIN_LENGTH; winLine++) {
+                    if (map[x][y] == map[x + nextPointX][y + nextPointY]) {
+                        currentLine++;
+                        nextPointX++;
+                        nextPointY++;
                     }
-
-
                 }
+                if (currentLine == WIN_LENGTH) return true;
             }
             }
         }
