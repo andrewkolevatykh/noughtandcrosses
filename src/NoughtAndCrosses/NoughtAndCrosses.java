@@ -14,6 +14,8 @@ public class NoughtAndCrosses {
     private static final char [][] map = new char[MAP_SIZE_X][MAP_SIZE_Y];
     private static final Scanner sc = new Scanner(System.in);
     private static final Random rnd = new Random();
+    private static int currentX;
+    private static int currentY;
 
     public static void main(String[] args) {
         initMap();
@@ -21,7 +23,7 @@ public class NoughtAndCrosses {
         while(true) {
             humanTurn();
             printMap();
-            if(checkWin(HUMAN_DOT)) {
+            if(checkLine(currentX, currentY)) {
                 System.out.println("Выиграл игрок");
                 break;
             }
@@ -31,7 +33,7 @@ public class NoughtAndCrosses {
             }
             aiTurn();
             printMap();
-            if (checkWin(AI_DOT)) {
+            if (checkLine(currentX, currentY)) {
                 System.out.println("Выиграл компьютер");
                 break;
             }
@@ -70,6 +72,8 @@ public class NoughtAndCrosses {
             y = sc.nextInt() - 1;
         } while (!isValidCell(x, y) || !isEmptyCell(x, y));
         map [y][x] = HUMAN_DOT;
+        currentX = x;
+        currentY = y;
     }
 
     private static void aiTurn() {
@@ -79,6 +83,8 @@ public class NoughtAndCrosses {
             y = rnd.nextInt(MAP_SIZE_Y);
         } while (!isEmptyCell(x, y));
         map[y][x] = AI_DOT;
+        currentX = x;
+        currentY = y;
     }
 
     private static boolean checkWin(char c) {
@@ -99,7 +105,7 @@ public class NoughtAndCrosses {
 
     }
 
-    private static boolean checkLine (int x, int y, char c) {
+    private static boolean checkLine (int x, int y) {
 
         for (int vx = -1; vx <= 1; vx++) { if (x + vx <= map.length && x + vx >= 0) {
             for (int vy = -1; vy <= 1; vy++) { if (y + vy <= map.length && y + vy >= 0) {
