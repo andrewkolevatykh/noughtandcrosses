@@ -87,23 +87,23 @@ public class NoughtAndCrosses {
         currentY = y;
     }
 
-    private static boolean checkWin(char c) {
-
-        //horizontal
-        if(map[0][0] == c && map [0][1] == c && map [0][2] == c) return true;
-        if(map[1][0] == c && map [1][1] == c && map [1][2] == c) return true;
-        if(map[2][0] == c && map [2][1] == c && map [2][2] == c) return true;
-        //vertical
-        if(map[0][0] == c && map [1][0] == c && map [2][0] == c) return true;
-        if(map[0][1] == c && map [1][1] == c && map [2][1] == c) return true;
-        if(map[0][2] == c && map [1][2] == c && map [2][2] == c) return true;
-        //diagonal
-        if(map[0][0] == c && map [1][1] == c && map [2][2] == c) return true;
-        if(map[2][0] == c && map [1][1] == c && map [1][2] == c) return true;
-
-        return false;
-
-    }
+//    private static boolean checkWin(char c) {
+//
+//        //horizontal
+//        if(map[0][0] == c && map [0][1] == c && map [0][2] == c) return true;
+//        if(map[1][0] == c && map [1][1] == c && map [1][2] == c) return true;
+//        if(map[2][0] == c && map [2][1] == c && map [2][2] == c) return true;
+//        //vertical
+//        if(map[0][0] == c && map [1][0] == c && map [2][0] == c) return true;
+//        if(map[0][1] == c && map [1][1] == c && map [2][1] == c) return true;
+//        if(map[0][2] == c && map [1][2] == c && map [2][2] == c) return true;
+//        //diagonal
+//        if(map[0][0] == c && map [1][1] == c && map [2][2] == c) return true;
+//        if(map[2][0] == c && map [1][1] == c && map [1][2] == c) return true;
+//
+//        return false;
+//
+//    }
 
     private static boolean checkLine (int x, int y) {
         int currentLine = 0;
@@ -115,12 +115,14 @@ public class NoughtAndCrosses {
                     int nextPointY = vy;
                     currentLine = 0;
                     for (int winLine = 0; winLine < WIN_LENGTH; winLine++) {
-
-                        if (map[x][y] == map[x + nextPointX][y + nextPointY] && x + nextPointX >= 0 && y + nextPointY >= 0 && x + nextPointX < map.length && y + nextPointY < map.length) {
-                            currentLine++;
-                            nextPointX = nextPointX + vx;
-                            nextPointY = nextPointY + vy;
+                        if (x + nextPointX >= 0 && y + nextPointY >= 0 && x + nextPointX < map.length && y + nextPointY < map.length) {
+                            if (map[x][y] == map[x + nextPointX][y + nextPointY]) {
+                                currentLine++;
+                                nextPointX += vx;
+                                nextPointY += vy;
+                            }
                         }
+
                     }
                 }
                 if (currentLine == WIN_LENGTH) return true;
