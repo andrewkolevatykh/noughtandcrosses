@@ -23,7 +23,7 @@ public class NoughtAndCrosses {
         while(true) {
             humanTurn();
             printMap();
-            if(checkLine(currentX, currentY)) {
+            if(checkLine(currentY, currentX)) {
                 System.out.println("Выиграл игрок");
                 break;
             }
@@ -33,7 +33,7 @@ public class NoughtAndCrosses {
             }
             aiTurn();
             printMap();
-            if (checkLine(currentX, currentY)) {
+            if (checkLine(currentY, currentX)) {
                 System.out.println("Выиграл компьютер");
                 break;
             }
@@ -71,7 +71,7 @@ public class NoughtAndCrosses {
             x = sc.nextInt() - 1;
             y = sc.nextInt() - 1;
         } while (!isValidCell(x, y) || !isEmptyCell(x, y));
-        map [x][y] = HUMAN_DOT;
+        map [y][x] = HUMAN_DOT;
         currentX = x;
         currentY = y;
     }
@@ -82,7 +82,7 @@ public class NoughtAndCrosses {
             x = rnd.nextInt(MAP_SIZE_X);
             y = rnd.nextInt(MAP_SIZE_Y);
         } while (!isEmptyCell(x, y));
-        map[x][y] = AI_DOT;
+        map[y][x] = AI_DOT;
         currentX = x;
         currentY = y;
     }
@@ -105,10 +105,10 @@ public class NoughtAndCrosses {
 //
 //    }
 
-    private static boolean checkLine (int x, int y) {
+    private static boolean checkLine (int y, int x) {
         int currentLine = 0;
-        for (int vx = -1; vx <= 1; vx++) { if (x + vx < map.length && x + vx >= 0) {
-            for (int vy = -1; vy <= 1; vy++) { if (y + vy < map.length && y + vy >= 0) {
+        for (int vy = -1; vy <= 1; vy++) { if (y + vy < map.length && y + vy >= 0) {
+            for (int vx = -1; vx <= 1; vx++) { if (x + vx < map.length && x + vx >= 0) {
 
                 if (vx != 0 || vy !=0) {
                     int nextPointX = vx;
@@ -116,7 +116,7 @@ public class NoughtAndCrosses {
                     currentLine = 0;
                     for (int winLine = 0; winLine < WIN_LENGTH; winLine++) {
                         if (x + nextPointX >= 0 && y + nextPointY >= 0 && x + nextPointX < map.length && y + nextPointY < map.length) {
-                            if (map[x][y] == map[x + nextPointX][y + nextPointY]) {
+                            if (map[y][x] == map[y + nextPointY][x + nextPointX]) {
                                 currentLine++;
                                 nextPointX += vx;
                                 nextPointY += vy;
